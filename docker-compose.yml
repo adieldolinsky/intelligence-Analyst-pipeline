@@ -1,0 +1,30 @@
+services:
+  n8n:
+    build: .
+    container_name: n8n_doc_analyst
+    restart: always
+    environment:
+    #Returns the hidden nodes
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./incoming_docs:/incoming_docs
+      - ./output_docs:/output_docs
+      - ./scripts:/scripts
+  metadata_api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: student_metadata_api
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    networks:
+      - default # Make sure this matches the network n8n uses
+volumes:
+  n8n_data:

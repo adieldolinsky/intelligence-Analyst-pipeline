@@ -1,0 +1,9 @@
+Subject: Urgent - Telephony System Outage
+Date: October 24, 2025
+
+Description:
+This morning at the Mizrahi-Tefahot Bank call center, the main routing server crashed unexpectedly. The situation is highly stressful as customer wait times have tripled and the staff is extremely frustrated. Adiel reported the initial hardware failure at 08:15 AM.
+
+We urgently need to purchase a replacement routing module from Cisco Systems to restore full functionality. The vendor quoted the equipment at exactly $3,200.
+
+Please prioritize this issue. The network team must deploy the temporary backup server by noon today, and the finance department needs to approve the Cisco purchase order immediately.
