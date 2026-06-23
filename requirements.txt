@@ -1,0 +1,6 @@
+# Python dependencies for document extraction scripts (n8n container)
+PyMuPDF>=1.24.0
+python-docx>=1.1.0
+
+# Metadata enrichment API (metadata_api container)
+Flask>=3.0.0,<4

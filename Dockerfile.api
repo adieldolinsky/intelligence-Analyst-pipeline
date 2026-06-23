@@ -1,16 +1,13 @@
-# Use official lightweight Python image
 FROM python:3.10-slim
 
-# Set the working directory inside the container
 WORKDIR /app
 
-RUN pip install --no-cache-dir Flask
+RUN pip install --no-cache-dir "Flask>=3.0.0,<4"
 
-# Copy the metadata API script from the local scripts folder
 COPY scripts/metadata_api.py .
 
-# Expose the port that Flask listens on
 EXPOSE 5000
 
-# Run the Flask API server
+ENV FLASK_DEBUG=0
+
 CMD ["python", "metadata_api.py"]

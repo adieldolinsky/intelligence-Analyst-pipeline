@@ -1,2 +1,10 @@
 .venv
 .env
+.idea/
+__pycache__/
+*.pyc
+
+# Generated pipeline summaries (sample kept for reference)
+output_docs/*
+!output_docs/.gitkeep
+!output_docs/test_doc_summary.md

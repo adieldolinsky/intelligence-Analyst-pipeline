@@ -2,29 +2,43 @@ services:
   n8n:
     build: .
     container_name: n8n_doc_analyst
-    restart: always
+    restart: unless-stopped
+    env_file:
+      - .env
     environment:
-    #Returns the hidden nodes
-      - N8N_HOST=localhost
-      - N8N_PORT=5678
-      - N8N_PROTOCOL=http
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=${N8N_PORT:-5678}
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
       - NODE_ENV=production
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE:-UTC}
     ports:
-      - "5678:5678"
+      - "${N8N_PORT:-5678}:5678"
     volumes:
       - n8n_data:/home/node/.n8n
       - ./incoming_docs:/incoming_docs
       - ./output_docs:/output_docs
-      - ./scripts:/scripts
+      - ./scripts:/scripts:ro
+    depends_on:
+      metadata_api:
+        condition: service_healthy
+
   metadata_api:
     build:
       context: .
       dockerfile: Dockerfile.api
-    container_name: student_metadata_api
-    ports:
-      - "5000:5000"
+    container_name: metadata_api
     restart: unless-stopped
-    networks:
-      - default # Make sure this matches the network n8n uses
+    ports:
+      - "${METADATA_API_PORT:-5000}:5000"
+    environment:
+      - FLASK_DEBUG=${FLASK_DEBUG:-0}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
 volumes:
   n8n_data:
